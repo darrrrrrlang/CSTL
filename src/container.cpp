@@ -7,8 +7,13 @@
 #include <set>
 #include <map>
 #include <array>
+#include <string>
 
 using namespace std;
+
+namespace
+{
+}
 
 void TEST::test_array()
 {
@@ -202,35 +207,59 @@ void TEST::test_set()
 {
 	cout << "test set" << endl;
 	{
-
+		set<int> s = { 1,2,3,4,5 };
+		PRINT_ELEMENTES(s, "set<int> s = {1,2,3,4,5}");
+		set<int, greater<int> > s2 = { 1,2,3,4,5 };
+		PRINT_ELEMENTES(s2, "set<int, greater<int> > s2 = {1,2,3,4,5}");
+	}
+	{
+		set<int> s = { 1,1,8,3,3,3,6,5 };
+		PRINT_ELEMENTES(s, "set<int> s = { 1,1,8,3,3,3,6,5 }");
+		cout << "s.size()=" << s.size() << endl;
+		cout << "s.max_size()=" << s.max_size() << endl;
+		cout << "s.count(0)=" << s.count(0) << endl;
+		cout << "s.count(1)=" << s.count(1) << endl;
+		auto it = s.find(3);
+		cout << "*s.find(3)=" << *it << endl;
+		cout << "*s.lower_bound(4)=" << *s.lower_bound(4) << endl;
+		cout << "*s.upper_bound(4)=" << *s.upper_bound(4) << endl;
+		cout << "*s.equal_bound(4).first=" << *s.equal_range(4).first << endl;
+		cout << "*s.equal_bound(4).second=" << *s.equal_range(4).second << endl;
+		cout << "*s.lower_bound(5)=" << *s.lower_bound(5) << endl;
+		cout << "*s.upper_bound(5)=" << *s.upper_bound(5) << endl;
+		cout << "*s.equal_bound(5).first=" << *s.equal_range(5).first << endl;
+		cout << "*s.equal_bound(5).second=" << *s.equal_range(5).second << endl;
 	}
 }
 
 void TEST::test_map()
 {
-	cout << "test mulset" << endl;
-	multiset<int> mset{
-		4,7,5
-	};
-	for (const auto &r : mset)
+	cout << "test_map()" << endl;
 	{
-		cout << r << endl;
+		map<string, int> m = { {"Jerry",78},{"Tom",80}, {"Lily",81} };
+		PRINT_ELEMENTES<string, int>(m, "map<string,int> m = { {\"Jerry\",78},{\"Tom\",80}, {\"Lily\",81} }:");
+		cout << "m.count(\"Jerry\")=" << m.count("Jerry") << endl;
+		const auto &ref_find = m.find("Jerry");
+		cout << "m.find(\"Jerry\")->first=" << ref_find->first << endl;
+		cout << "m.find(\"Jerry\")->second=" << ref_find->second << endl;
+		const auto &ref_lower_bound = m.lower_bound("Kitty");
+		cout << "m.lower_bound(\"Kitty\")->first=" << ref_lower_bound->first << endl;
+		cout << "m.lower_bound(\"Kitty\")->second=" << ref_lower_bound->second << endl;
+		const auto &ref_upper_bound = m.upper_bound("Kitty");
+		cout << "m.upper_bound(\"Kitty\")->first=" << ref_upper_bound->first << endl;
+		cout << "m.upper_bound(\"Kitty\")->second=" << ref_upper_bound->second << endl;
+		const auto &ref_equal_range = m.equal_range("Kitty");
+		cout << "m.equal_range(\"Kitty\").first->first=" << ref_equal_range.first->first << endl;
+		cout << "m.equal_range(\"Kitty\").second->first=" << ref_equal_range.second->first << endl;
 	}
-	cout << "multiset insert duplicated element" << endl;
-	mset.insert(5);
-	for (const auto &r : mset)
 	{
-		cout << r << endl;
-	}
-
-	cout << "test mulmap" << endl;
-	multimap<int, double> mmap;
-	mmap.insert(std::make_pair(5, 5.55));
-	mmap.insert(std::make_pair(3, 3.33));
-	mmap.insert(std::make_pair(6, 6.66));
-
-	for (const auto & r : mmap)
-	{
-		cout << r.first << r.second << endl;
+		map<string, int> m;
+		m.insert(pair<string,int>("Jerry", 78));
+		m.insert(make_pair("Tom", 80));
+		m.insert({ "Lily",81 });
+		m.insert(map<string, int>::value_type("Jack", 93));
+		PRINT_ELEMENTES<string, int>(m, "map.insert():");
+		m.erase("Jack");
+		PRINT_ELEMENTES<string, int>(m, "map.erase(\"Jack\")");
 	}
 }

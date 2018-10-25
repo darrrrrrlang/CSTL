@@ -27,6 +27,8 @@ int main()
 	//TEST::test_predefined_function_object();
 	//TEST::test_array();
 	//TEST::test_vector();
-	TEST::test_list();
+	//TEST::test_list();
+	//TEST::test_set();
+	TEST::test_map();
 	return 0;
 }
