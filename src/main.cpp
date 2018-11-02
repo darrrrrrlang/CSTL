@@ -21,12 +21,12 @@ int main()
 	//TEST::test_find_if();
 	//TEST::test_sort_self_defined();
 	//TEST::test_simple_function_object();
-	TEST::test_predefined_function_object();
+	//TEST::test_predefined_function_object();
 	//TEST::test_array();
 	//TEST::test_vector();
 	//TEST::test_list();
 	//TEST::test_set();
 	//TEST::test_map();
-	//TEST::test_algorithm();
+	TEST::test_algorithm();
 	return 0;
 }
