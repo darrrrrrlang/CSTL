@@ -4,10 +4,12 @@
 #include <algorithm>
 #include <iostream>
 #include <numeric>
+#include <iterator>
+#include <deque>
 
 #include "../unility.h"
 
-void TEST::test_algorithm()
+void TEST::test_algorithm_nonmodifying()
 {
 	/* for_each */
 	{
@@ -160,17 +162,197 @@ void TEST::test_algorithm()
 	{
 		std::cout << "TEST: is_permutation" << std::endl;
 
-		std::vector<int> v{ 1,2,3,4,5 };
-		std::vector<int> v2{ 2,3,1,5,4 };
-		std::vector<int> v3{ 6,5,4,3,2 };
+		std::vector<int> v{ 1,3,5,7,9 };
+		std::vector<int> v2{ 3,5,1,9,7 };
+		std::vector<int> v3{ 10,8,6,4,2 };
 		PRINT_ELEMENTES(v, "v:");
 		PRINT_ELEMENTES(v2, "v2:");
 		PRINT_ELEMENTES(v3, "v3:");
 		std::cout << "is_permutation(v.cbegin(), v.cend(), v2.cbegin())=" <<
 			std::is_permutation(v.cbegin(), v.cend(), v2.cbegin()) << std::endl;
-		std::cout << "is_permutation(v.cbegin(), v.cend(), v3.cbegin(), op(a+1==b))=" <<
+		std::cout << "is_permutation(v.cbegin(), v.cend(), v3.cbegin(), op(a+b==11))=" <<
 			std::is_permutation(v.cbegin(), v.cend(), v3.cbegin(),
-				[](const int &ref_elem, const int &ref_value)->bool {return ref_elem + 1 == ref_value; }) << std::endl;
+				[](const int &ref_elem, const int &ref_value)->bool {return ref_elem + ref_value == 11; }) << std::endl;
 		std::cout << std::endl;
+	}
+	/* mismatch */
+	{
+		std::cout << "TEST: mismatch" << std::endl;
+
+		std::vector<int> v{ 1,2,3,4,5 };
+		std::vector<int> v2{ 1,2,4,5,6 };
+		PRINT_ELEMENTES(v, "v:");
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "*mismatch(v.cbegin(), v.cend(), v2.cbegin()).first=" <<
+			*std::mismatch(v.cbegin(), v.cend(), v2.cbegin()).first << std::endl;
+		std::cout << "*mismatch(v.cbegin(), v.cend(), v2.cbegin()).second=" <<
+			*std::mismatch(v.cbegin(), v.cend(), v2.cbegin()).second << std::endl;
+		std::cout << "*mismatch(v.cbegin(), v.cend(), v2.cbegin(), op(a==b)).first=" <<
+			*std::mismatch(v.cbegin(), v.cend(), v2.cbegin(),
+				[](const int &ref_elem, const int &ref_value)->bool {return ref_elem == ref_value; }).first << std::endl;
+		std::cout << "*mismatch(v.cbegin(), v.cend(), v2.cbegin(), op(a==b)).second=" <<
+			*std::mismatch(v.cbegin(), v.cend(), v2.cbegin(),
+				[](const int &ref_elem, const int &ref_value)->bool {return ref_elem == ref_value; }).second << std::endl;
+		std::cout << std::endl;
+	}
+	/* lexicographical_compare */
+	{
+		std::cout << "TEST: lexicographical_compare" << std::endl;
+
+		std::vector<int> v{ 1,2,3,4,5 };
+		std::vector<int> v2{ 1,2,3,4,5,6 };
+		std::vector<int> v3{ 1,2,3,4,6 };
+		PRINT_ELEMENTES(v, "v:");
+		PRINT_ELEMENTES(v2, "v2:");
+		PRINT_ELEMENTES(v3, "v3:");
+		std::cout << "lexicographical_compare(v.cbegin(), v.cend(), v2.cbegin(), v2.cend())=" <<
+			std::lexicographical_compare(v.cbegin(), v.cend(), v2.cbegin(), v2.cend()) << std::endl;
+		std::cout << "lexicographical_compare(v.cbegin(), v.cend(), v3.cbegin(), v3.cend())=" <<
+			std::lexicographical_compare(v.cbegin(), v.cend(), v3.cbegin(), v3.cend()) << std::endl;
+		std::cout << "lexicographical_compare(v.cbegin(), v.cend(), v2.cbegin(), v2.cend(), op(a<b))=" <<
+			std::lexicographical_compare(v.cbegin(), v.cend(), v2.cbegin(), v2.cend(), 
+				[](const int &ref_elem, const int &ref_value)->bool {return ref_elem < ref_value; }) << std::endl;
+		std::cout << "lexicographical_compare(v.cbegin(), v.cend(), v3.cbegin(), v3.cend(), op(a<b))=" <<
+			std::lexicographical_compare(v.cbegin(), v.cend(), v3.cbegin(), v3.cend(),
+				[](const int &ref_elem, const int &ref_value)->bool {return ref_elem < ref_value; }) << std::endl;
+		std::cout << std::endl;
+	}
+	/* is_sorted */
+	{
+		std::cout << "TEST: is_sorted" << std::endl;
+
+		std::vector<int> v{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "is_sorted(v.cbegin(), v.cend())=" <<
+			std::is_sorted(v.cbegin(), v.cend()) << std::endl;
+
+		std::vector<int> v2{ 5,4,3,2,1 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "is_sorted(v2.cbegin(), v2.cend())=" <<
+			std::is_sorted(v2.cbegin(), v2.cend()) << std::endl;
+		std::cout << "is_sorted(v2.cbegin(), v2.cend(), op(a>b))=" <<
+			std::is_sorted(v2.cbegin(), v2.cend(),
+				[](const int &ref_elem, const int &ref_value)->bool {return ref_elem > ref_value; }) << std::endl;
+
+		std::cout << std::endl;
+	}
+	/* is_sorted_until */
+	{
+		std::cout << "TEST: is_sorted_until" << std::endl;
+
+		std::vector<int> v{ 1,2,4,3,5 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "*is_sorted_until(v.cbegin(), v.cend())=" <<
+			*std::is_sorted_until(v.cbegin(), v.cend()) << std::endl;
+		std::vector<int> v2{ 5,3,4,2,1 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "*is_sorted_until(v2.cbegin(), v2.cend(), op(a>b))=" <<
+			*std::is_sorted_until(v2.cbegin(), v2.cend(),
+				[](const int &ref_a, const int ref_b)->bool {return ref_a > ref_b; }) << std::endl;
+		std::cout << std::endl;
+	}
+	/* is_partitioned */
+	{
+		std::cout << "TEST: is_partitioned" << std::endl;
+
+		std::vector<int> v{ 3,1,5,7,3,4,8,6,2 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "is_partitioned(v.cbegin(), v.cend(), op(a%2 != 0))=" <<
+			std::is_partitioned(v.cbegin(), v.cend(),
+				[](const int &ref)->bool {return ref % 2 != 0; }) << std::endl;
+		std::cout << std::endl;
+	}
+	/* partition_point */
+	{
+		std::cout << "TEST: partition_point" << std::endl;
+
+		std::vector<int> v{ 1,3,5,7,2,4,6,8 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "*partition_point(v.cbegin(), v.cend(), op)=" <<
+			*std::partition_point(v.cbegin(), v.cend(),
+				[](const int &ref)->bool {return ref % 2 != 0; }) << std::endl;
+		std::cout << std::endl;
+	}
+	/* is_heap, is_heap_until */
+	{
+		std::cout << "TEST: is_heap, is_heap_until" << std::endl;
+
+		std::vector<int> v{ 5,3,4,1,2,2,1 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "is_heap(v.cbegin(), v.cend())=" <<
+			std::is_heap(v.cbegin(), v.cend()) << std::endl;
+		std::cout << "is_heap(v.cbegin(), v.cend(), op(a<b))=" <<
+			std::is_heap(v.cbegin(), v.cend(),
+				[](const int &ref_a, const int &ref_b)->bool {return ref_a < ref_b; }) << std::endl;
+		std::vector<int> v2{ 5,3,4,1,2,5,2 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "is_heap(v2.cbegin(), v2.cend())=" <<
+			std::is_heap(v2.cbegin(), v2.cend()) << std::endl;
+		std::cout << "*is_heap_until(v2.cbegin(), v2.cend())=" <<
+			*std::is_heap_until(v2.cbegin(), v2.cend()) << std::endl;
+		std::cout << "*is_heap_until(v2.cbegin(), v2.cend(), op(a<b))=" <<
+			*std::is_heap_until(v2.cbegin(), v2.cend(),
+				[](const int &ref_a, const int ref_b)->bool {return ref_a < ref_b; }) << std::endl;
+		std::cout << std::endl;
+	}
+	/* all_of, any_of, none_of */
+	{
+		std::cout << "TEST: all_of, any_of, none_of" << std::endl;
+
+		std::vector<int> v{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "all_of(v.cbegin(), v.cend(), op(a<100))=" <<
+			std::all_of(v.cbegin(), v.cend(),
+				[](const int &ref)->bool {return ref < 100; }) << std::endl;
+		std::cout << "any_of(v.cbegin(), v.cend(), op(a<2))=" <<
+			std::any_of(v.cbegin(), v.cend(),
+				[](const int &ref)->bool {return ref < 2; }) << std::endl;
+		std::cout << "none_of(v.cbegin(), v.cend(), op(a<0))=" <<
+			std::none_of(v.cbegin(), v.cend(),
+				[](const int &ref)->bool {return ref < 0; }) << std::endl;
+		std::cout << std::endl;
+	}
+} 
+
+void TEST::test_algorithm_modifying()
+{
+	/* copy */
+	{
+		std::cout << "TEST: copy" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5 };
+		
+		PRINT_ELEMENTES(v, "v:");
+
+		std::vector<int> v1;
+		std::cout << "copy(v.cbegin(), v.cend(), back_inserter(v1))" << std::endl;
+		std::copy(v.cbegin(), v.cend(), std::back_inserter(v1));
+		PRINT_ELEMENTES(v1, "v1");
+		std::cout << std::endl;
+	}
+	/* copy_if */
+	{
+		std::cout << "TEST: copy_if" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v1;
+		std::cout << "copy(v.cbegin(), v.cend(), back_inserted(v1), op(v<4))" << std::endl;
+		std::copy_if(v.cbegin(), v.cend(), std::back_inserter(v1),
+			[](const int &ref)->bool {return ref < 4; });
+		std::cout << std::endl;
+	}
+	/* copy_n */
+	{
+		std::cout << "TEST: copy_n" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2;
+		std::cout << "copy_n(v.cbegin(), v.size()-1, back_inserter(v2))" << std::endl;
+		std::copy_n(v.cbegin(), v.size() - 1, std::back_inserter(v2));
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << std::endl;
+	}
+	/* copy_backword */
+	{
+		std::cout << "TEST: copy_backward" << std::endl;
 	}
 }

@@ -23,7 +23,7 @@
     <ClCompile Include="src\container.cpp" />
     <ClCompile Include="src\functional_algorithm_parameter.cpp" />
     <ClCompile Include="src\function_object.cpp" />
-    <ClCompile Include="src\iterator_adapter.cpp" />
+    <ClCompile Include="src\iterator.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -31,7 +31,7 @@
     <ClInclude Include="src\container.h" />
     <ClInclude Include="src\functional_algorithm_parameter.h" />
     <ClInclude Include="src\function_object.h" />
-    <ClInclude Include="src\iterator_adaptor.h" />
+    <ClInclude Include="src\iterator.h" />
     <ClInclude Include="unility.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

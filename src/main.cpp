@@ -1,7 +1,7 @@
 
 #include "container.h"
 #include "algorithm.h"
-#include "iterator_adaptor.h"
+#include "iterator.h"
 #include "functional_algorithm_parameter.h"
 #include "function_object.h"
 
@@ -27,6 +27,7 @@ int main()
 	//TEST::test_list();
 	//TEST::test_set();
 	//TEST::test_map();
-	TEST::test_algorithm();
+	//TEST::test_algorithm_nonmodifying();
+	TEST::test_algorithm_modifying();
 	return 0;
 }
