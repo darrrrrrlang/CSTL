@@ -354,5 +354,94 @@ void TEST::test_algorithm_modifying()
 	/* copy_backword */
 	{
 		std::cout << "TEST: copy_backward" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2(v.size());
+		std::cout << "copy_backward(v.cbegin(), v.cend(), v2.end())" << std::endl;
+		std::copy_backward(v.cbegin(), v.cend(), v2.end());
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << std::endl;
+	}
+	/* move, move_backward */
+	{
+		std::cout << "TEST: move" << std::endl;
+		std::vector<std::string> v{ "this", "is", "amazing!" };
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<std::string> v2(v.size());
+		std::cout << "move(v.cbegin(), v.cend(), v2.begin())" << std::endl;
+		std::move(v.cbegin(), v.cend(), v2.begin());
+		PRINT_ELEMENTES(v2, "v2:");
+		std::vector<std::string> v3{ "this", "is", "amazing", "too!" };
+		PRINT_ELEMENTES(v3, "v3:");
+		std::vector<std::string> v4(v3.size());
+		std::cout << "move_backward(v3.cbegin(), v3.cend(), v4.back())" << std::endl;
+		std::move_backward(v3.cbegin(), v3.cend(), v4.end());
+		PRINT_ELEMENTES(v4, "v4:");
+		std::cout << std::endl;
+	}
+	/* transform */
+	{
+		std::cout << "TEST: transform" << std::endl;
+
+		std::vector<int> v{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2;
+		std::cout << "transform(v.cbegin(), v.cend(), back_inserter(v2), op(v+1))" << std::endl;
+		std::transform(v.cbegin(), v.cend(), std::back_inserter(v2),
+			[](const int &ref)->int {return ref + 1; });
+		PRINT_ELEMENTES(v2, "v2:");
+
+		std::vector<int> v3{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v3, "v3:");
+		std::vector<int> v4{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v4, "v4:");
+		std::vector<int> v5;
+		std::cout << "transform(v3.cbegin(), v3.cend(), v4.cbegin(), back_inserter(v5), op(a+b))" << std::endl;
+		std::transform(v3.cbegin(), v3.cend(), v4.cbegin(), std::back_inserter(v5),
+			[](const int &ref_a, const int ref_b)->int {return ref_a + ref_b; });
+		PRINT_ELEMENTES(v5, "v5:");
+
+		std::cout << std::endl;
+	}
+	/* swap_ranges */
+	{
+		std::cout << "TEST: swap_ranges" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5 };
+		std::vector<int> v2{ 2,3,4,5,6 };
+		PRINT_ELEMENTES(v, "v:");
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "swap_ranges(v.begin(), v.end(), v2.begin())" << std::endl;
+		std::swap_ranges(v.begin(), v.end(), v2.begin());
+		PRINT_ELEMENTES(v, "v:");
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << std::endl;
+	}
+	/* fill, fill_n */
+	{
+		std::cout << "TEST: fill, fill_n" << std::endl;
+		std::vector<int> v(5);
+		std::cout << "fill(v.begin(), v.end(), 12)" << std::endl;
+		std::fill(v.begin(), v.end(), 12);
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "fill_n(v.begin(), v.size(), 13)" << std::endl;
+		std::fill_n(v.begin(), v.size(), 13);
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << std::endl;
+	}
+	/* generate, generate_n */
+	{
+		std::cout << "TEST: generate, generate_n" << std::endl;
+		int count = 0;
+		std::vector<int> v(5);
+		std::cout << "generate(v.begin(), v.end(), op(++count%3))" << std::endl;
+		std::generate(v.begin(), v.end(), [&count]()->int {return ++count % 3; });
+		PRINT_ELEMENTES(v, "v:");
+
+		std::vector<int> v2(5);
+		std::cout << "generate_n(v.begin(), v.end(), op(++count%3))" << std::endl;
+		std::generate_n(v2.begin(), v2.size(), [&count]()->int {return ++count % 3; });
+		PRINT_ELEMENTES(v2, "v2:");
+
+		std::cout << std::endl;
 	}
 }
