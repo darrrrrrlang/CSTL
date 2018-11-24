@@ -6,6 +6,7 @@
 #include <numeric>
 #include <iterator>
 #include <deque>
+#include <random>
 
 #include "../unility.h"
 
@@ -442,6 +443,316 @@ void TEST::test_algorithm_modifying()
 		std::generate_n(v2.begin(), v2.size(), [&count]()->int {return ++count % 3; });
 		PRINT_ELEMENTES(v2, "v2:");
 
+		std::cout << std::endl;
+	}
+	/* iota */
+	{
+		std::cout << "TEST: iota" << std::endl;
+		std::vector<int> v(5);
+		std::cout << "iota(v.begin(), v.end(), 12)" << std::endl;
+		std::iota(v.begin(), v.end(), 12);
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << std::endl;
+	}
+	/* replace, replace_if */
+	{
+		std::cout << "TEST: replace, replace_if" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5 };
+		std::cout << "replace(v.begin(), v.end(), 3, 12)" << std::endl;
+		std::replace(v.begin(), v.end(), 3, 12);
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2{ 1,2,3,4,5 };
+		std::cout << "replace_if(v2.begin(), v2.end(), op(a>2), 12)" << std::endl;
+		std::replace_if(v2.begin(), v2.end(),
+			[](const int &ref)->bool {return ref > 2; }, 12);
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << std::endl;
+	}
+	/* replace_copy, replace_copy_if */
+	{
+		std::cout << "TEST: replace_copy, replace_copy_if" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5 };
+		std::vector<int> v2;
+		std::vector<int> v3;
+		std::cout << "replace_copy(v.cbegin(), v.cend(), back_inserter(v2), 3, 12)" << std::endl;
+		std::replace_copy(v.cbegin(), v.cend(), std::back_inserter(v2), 3, 12);
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "replace_copy(v.cbegin(), v.cend(), back_inserter(v3), op(a>2), 12)" << std::endl;
+		std::replace_copy_if(v.cbegin(), v.cend(), std::back_inserter(v3),
+			[](const int &ref)->bool {return ref > 2; }, 12);
+		PRINT_ELEMENTES(v3, "v3:");
+		std::cout << std::endl;
+	}
+}
+
+void TEST::test_algorithm_removing()
+{
+	std::cout << "TEST algorithm removing" << std::endl;
+
+	/* remove, remove_if */
+	{
+		std::cout << "TEST: remove, remove_if" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "remove(v.begin(), v.end(), 3)" << std::endl;
+		std::remove(v.begin(), v.end(), 3);
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "remove_if(v.begin(), v.end(), op(a>2))" << std::endl;
+		std::remove_if(v.begin(), v.end(),
+			[](const int &ref)->bool {return ref > 2; });
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << std::endl;
+	}
+	/* remove_copy, remove_copy_if */
+	{
+		std::cout << "TEST: remove_copy, remove_copy_if" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2;
+		std::vector<int> v3;
+		std::cout << "remove_copy(v.cbegin(), v.cend(), insert_iterator(v2), 3)" << std::endl;
+		std::remove_copy(v.cbegin(), v.cend(), std::back_inserter(v2), 3);
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "remove_copy_if(v.cbegin(), v.cend(), back_inserter(v3), op(>2))" << std::endl;
+		std::remove_copy_if(v.cbegin(), v.cend(), std::back_inserter(v3),
+			[](const int &ref)->bool {return ref > 2; });
+		PRINT_ELEMENTES(v3, "v3;");
+		std::cout << std::endl;
+	}
+	/* unique */
+	{
+		std::cout << "TEST: unique" << std::endl;
+		std::vector<int> v{ 1,2,2,3,3,3,4,4,4,4,5,5 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "unique(v.begin(), v.end())" << std::endl;
+		std::unique(v.begin(), v.end());
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "unique(v.begin(), v.end(), op(a==b))" << std::endl;
+		std::vector<int> v2{ 1,2,2,3,3,3,4,4,4,4,5,5 };
+		std::unique(v2.begin(), v2.end(),
+			[](const int &ref_a, const int &ref_b)->bool {return ref_a == ref_b; });
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << std::endl;
+	}
+	/* unique_copy */
+	{
+		std::cout << "TEST: uinque_copy" << std::endl;
+		std::vector<int> v{ 1,2,2,3,3,3,4,4,4,4,5,5 };
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2;
+		std::vector<int> v3;
+		std::cout << "unique(v.cbegin(), v.cend(), back_inserter(v2))" << std::endl;
+		std::unique_copy(v.cbegin(), v.cend(), std::back_inserter(v2));
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "unique(v.cbegin(), v.cend(), back_inserter(v3), op(a==b))" << std::endl;
+		std::unique_copy(v.cbegin(), v.cend(), std::back_inserter(v3),
+			[](const int &ref_a, const int &ref_b)->bool {return ref_a == ref_b; });
+		PRINT_ELEMENTES(v3, "v3:");
+		std::cout << std::endl;
+	}
+}
+
+void TEST::test_algorithm_mutating()
+{
+	std::cout << "TEST: mutating algorithm" << std::endl;
+	/* reverse, reverse_copy */
+	{
+		std::cout << "TEST: reverse, reverse_copy" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "reverse(v.begin(), v.end())" << std::endl;
+		std::reverse(v.begin(), v.end());
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::vector<int> v3;
+		std::cout << "reverse_copy(v2.cbegin(), v2.cend(), back_inserter(v3))" << std::endl;
+		std::reverse_copy(v2.cbegin(), v2.cend(), std::back_inserter(v3));
+		PRINT_ELEMENTES(v3, "v3:");
+		std::cout << std::endl;
+	}
+	/* rotate, rotate_copy */
+	{
+		std::cout << "TEST: rotate, rotate_copy" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5,6,7,8,9 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "rotate(v.begin(), v.begin()+2, v.end())" << std::endl;
+		std::rotate(v.begin(), v.begin() + 2, v.end());
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2{ 1,2,3,4,5,6,7,8,9 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::vector<int> v3;
+		std::cout << "rotate_copy(v2.cbegin(), v2.cbegin()+2, v2.cend(), back_inserter(v3))" << std::endl;
+		std::rotate_copy(v2.cbegin(), v2.cbegin() + 2, v2.cend(), std::back_inserter(v3));
+		PRINT_ELEMENTES(v3, "v3:");
+		std::cout << std::endl;
+	}
+	/* next_permutation */
+	{
+		std::cout << "TEST: next_premutation" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5,6,7,8,9 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "next_permutation(v.begin(), v.end())" << std::endl;
+		std::next_permutation(v.begin(), v.end());
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2{ 1,2,3,4,5,6,7,8,9 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "next_permutation(v.begin(), v.end(), op(a<b))" << std::endl;
+		std::next_permutation(v.begin(), v.end(),
+			[](const int &ref_a, const int &ref_b)->bool {return ref_a < ref_b; });
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << std::endl;
+	}
+	/* prev_permutation */
+	{		
+		std::cout << "TEST: next_premutation" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5,6,7,8,9 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "prev_permutation(v.begin(), v.end())" << std::endl;
+		std::prev_permutation(v.begin(), v.end());
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2{ 1,2,3,4,5,6,7,8,9 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "prev_permutation(v.begin(), v.end(), op(a<b))" << std::endl;
+		std::prev_permutation(v.begin(), v.end(),
+			[](const int &ref_a, const int &ref_b)->bool {return ref_a < ref_b; });
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << std::endl;
+	}
+	/* shuffle, random_shuffle */
+	{
+		std::cout << "TEST: shuffle" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5,6,7,8,9 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "shuffle(v.begin(), v.end(), default_random_engine)" << std::endl;
+		std::shuffle(v.begin(), v.end(), std::default_random_engine());
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2{ 1,2,3,4,5,6,7,8,9 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "shuffle_random(v.begin(), v.end())" << std::endl;
+		std::random_shuffle(v2.begin(), v2.end());
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << std::endl;
+	}
+	/* partition, stable_partition */
+	{
+		std::cout << "TEST: partition, stable_partition" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "partition(v.begin(), v.end(), op(a>3))" << std::endl;
+		std::partition(v.begin(), v.end(), [](const int &ref)->bool {return ref > 3; });
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "stable_partition(v.begin(), v.end(), op(a>3))" << std::endl;
+		std::stable_partition(v2.begin(), v2.end(), [](const int &ref)->bool {return ref > 3; });
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << std::endl;
+	}
+	/* partition_copy */
+	{
+		std::cout << "TEST: partition_copy" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5,6,7,8,9 };
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2;
+		std::vector<int> v3;
+		std::cout << "partition_copy(v.cbegin(), v.cend(), back_inserter(v2), back_inserter(v3), op(a%2 == 0)" << std::endl;
+		std::partition_copy(v.cbegin(), v.cend(), std::back_inserter(v2), std::back_inserter(v3),
+			[](const int &ref)->bool {return ref % 2 == 0; });
+		PRINT_ELEMENTES(v2, "v2:");
+		PRINT_ELEMENTES(v3, "v3:");
+		std::cout << std::endl;
+	}
+}
+
+void TEST::test_algorithm_sorting()
+{
+	std::cout << "TEST: sorting algorithm" << std::endl;
+	/* sort, stable_sort */
+	{
+		std::cout << "TEST: sort, stable_sort" << std::endl;
+		std::vector<int> v{ 4,8,1,2,5,6,3,9,7 };
+
+		std::vector<int> v2 = v;
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "sort(v2.begin(), v2.end())" << std::endl;
+		std::sort(v2.begin(), v2.end());
+		PRINT_ELEMENTES(v2, "v2:");
+
+		std::vector<int> v3 = v;
+		PRINT_ELEMENTES(v3, "v3:");
+		std::cout << "sort(v3.begin(), v3.end(), op(a>b)" << std::endl;
+		std::sort(v3.begin(), v3.end(), [](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; });
+		PRINT_ELEMENTES(v3, "v3:");
+
+		std::vector<int> v4 = v;
+		PRINT_ELEMENTES(v4, "v4:");
+		std::cout << "stable_sort(v4.begin(), v4.end())" << std::endl;
+		std::stable_sort(v4.begin(), v4.end());
+		PRINT_ELEMENTES(v4, "v4:");
+
+		std::vector<int> v5 = v;
+		PRINT_ELEMENTES(v5, "v5:");
+		std::cout << "stable_sort(v5.begin(), v5.end(), op(a>b))" << std::endl;
+		std::stable_sort(v5.begin(), v5.end(), [](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; });
+		PRINT_ELEMENTES(v5, "v5:");
+
+		std::cout << std::endl;
+	}
+	/* partial_sort, partial_sort_copy */
+	{
+		std::cout << "TEST: partial_sort" << std::endl;
+		std::vector<int> v{ 4,8,1,2,5,6,3,9,7 };
+
+		std::vector<int> v2 = v;
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "partial_sort(v2.begin(), v2.begin() + 5, v2.end())" << std::endl;
+		std::partial_sort(v2.begin(), v2.begin() + 5, v2.end());
+		PRINT_ELEMENTES(v2, "v2:");
+
+		std::vector<int> v3 = v;
+		PRINT_ELEMENTES(v3, "v3:");
+		std::cout << "partial_sort(v3.begin(), v3.begin() + 5, v3.end(), op(a>b))" << std::endl;
+		std::partial_sort(v3.begin(), v3.begin() + 5, v3.end(),
+			[](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; });
+		PRINT_ELEMENTES(v3, "v3:");
+		std::cout << std::endl;
+
+		std::vector<int> v4 = v;
+		std::vector<int> v5(v4.size());
+		PRINT_ELEMENTES(v4, "v4:");
+		std::cout << "partial_sort_copy(v4.cbegin(), v4.cend(), v5.begin(), v5.end())" << std::endl;
+		std::partial_sort_copy(v4.cbegin(), v4.cend(), v5.begin(), v5.end());
+		PRINT_ELEMENTES(v5, "v5:");
+
+		std::vector<int> v6 = v;
+		std::vector<int> v7(v6.size());
+		PRINT_ELEMENTES(v6, "v4:");
+		std::cout << "partial_sort_copy(v4.cbegin(), v4.cend(), v5.begin(), v5.end(), op(a>b))" << std::endl;
+		std::partial_sort_copy(v6.cbegin(), v6.cend(), v7.begin(), v7.end(),
+			[](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; });
+		PRINT_ELEMENTES(v7, "v7:");
+		std::cout << std::endl;
+	}
+	/* nth_element */
+	{
+		std::cout << "TEST: nth_element" << std::endl;
+		std::vector<int> v{ 4,8,1,2,5,6,3,9,7 };
+
+		std::vector<int> v2 = v;
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "nth_element(v2.begin(), v2.begin()+4, v2.end())" << std::endl;
+		std::nth_element(v2.begin(), v2.begin() + 4, v2.end());
+		PRINT_ELEMENTES(v2, "v2:");
+
+		std::vector<int> v3 = v;
+		PRINT_ELEMENTES(v3, "v3:");
+		std::cout << "nth_element(v3.begin(), v3.begin()+4, v3.end(), op(a>b))" << std::endl;
+		std::nth_element(v3.begin(), v3.begin() + 4, v3.end(),
+			[](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; });
+		PRINT_ELEMENTES(v3, "v3:");
 		std::cout << std::endl;
 	}
 }

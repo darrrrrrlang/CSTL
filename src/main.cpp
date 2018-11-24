@@ -28,6 +28,9 @@ int main()
 	//TEST::test_set();
 	//TEST::test_map();
 	//TEST::test_algorithm_nonmodifying();
-	TEST::test_algorithm_modifying();
+	//TEST::test_algorithm_modifying();
+	//TEST::test_algorithm_removing();
+	//TEST::test_algorithm_mutating();
+	TEST::test_algorithm_sorting();
 	return 0;
 }
