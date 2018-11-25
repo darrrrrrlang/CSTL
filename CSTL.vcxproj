@@ -25,6 +25,7 @@
     <ClCompile Include="src\function_object.cpp" />
     <ClCompile Include="src\iterator.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\string.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\algorithm.h" />
@@ -32,7 +33,8 @@
     <ClInclude Include="src\functional_algorithm_parameter.h" />
     <ClInclude Include="src\function_object.h" />
     <ClInclude Include="src\iterator.h" />
-    <ClInclude Include="unility.h" />
+    <ClInclude Include="src\string.h" />
+    <ClInclude Include="utility.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

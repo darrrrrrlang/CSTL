@@ -4,3 +4,6 @@
 /.git/
 *.out
 *.o
+*.vcxproj
+*.vcxproj
+*.filters

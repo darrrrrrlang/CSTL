@@ -4,6 +4,7 @@
 #include "iterator.h"
 #include "functional_algorithm_parameter.h"
 #include "function_object.h"
+#include "string.h"
 
 #include <iostream>
 #include <vector>
@@ -31,6 +32,10 @@ int main()
 	//TEST::test_algorithm_modifying();
 	//TEST::test_algorithm_removing();
 	//TEST::test_algorithm_mutating();
-	TEST::test_algorithm_sorting();
+	//TEST::test_algorithm_sorting();
+	//TEST::test_algorithm_sortedrange();
+	//TEST::test_algorithm_numeric();
+	//TEST::test_adapter();
+	TEST::test_string_basic();
 	return 0;
 }

@@ -33,6 +33,9 @@
     <ClCompile Include="src\iterator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\algorithm.h">
@@ -44,13 +47,16 @@
     <ClInclude Include="src\functional_algorithm_parameter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="unility.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\function_object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\iterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

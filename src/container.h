@@ -7,5 +7,5 @@ namespace TEST
 	void test_list();
 	void test_set();
 	void test_map();
-
+	void test_adapter();
 }

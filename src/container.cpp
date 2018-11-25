@@ -1,5 +1,5 @@
 #include "container.h"
-#include "../unility.h"
+#include "../utility.h"
 
 #include <vector>
 #include <list>
@@ -8,6 +8,9 @@
 #include <map>
 #include <array>
 #include <string>
+#include <stack>
+#include <queue>
+#include <bitset>
 
 using namespace std;
 
@@ -261,5 +264,67 @@ void TEST::test_map()
 		PRINT_ELEMENTES<string, int>(m, "map.insert():");
 		m.erase("Jack");
 		PRINT_ELEMENTES<string, int>(m, "map.erase(\"Jack\")");
+	}
+}
+
+void TEST::test_adapter()
+{
+	/* stack */
+	{
+		std::cout << "TEST: stack" << std::endl;
+		std::stack<int> s;
+		s.push(1);
+		s.push(2);
+		s.emplace(3);
+		s.emplace(4);
+		std::cout << "pop elements" << std::endl;
+		while (! s.empty())
+		{
+			std::cout << s.top() << " ";
+			s.pop();
+		}
+		std::cout << std::endl << std::endl;
+	}
+	/* queue */
+	{
+		std::cout << "TEST: queue" << std::endl;
+		std::queue<int> q;
+		q.push(1);
+		q.push(2);
+		q.emplace(3);
+		q.emplace(4);
+		std::cout << "pop elements" << std::endl;
+		while (!q.empty())
+		{
+			std::cout << q.front() << " ";
+			q.pop();
+		}
+		std::cout << std::endl << std::endl;
+	}
+	/* priority_queue */
+	{
+		std::cout << "TEST: priority_queue" << std::endl;
+		std::priority_queue<double, std::vector<double>, std::greater<double>> q;
+		q.push(87.5);
+		q.push(64.0);
+		q.emplace(90.0);
+		q.emplace(98.0);
+		std::cout << "pop elementes" << std::endl;
+		while (!q.empty())
+		{
+			std::cout << q.top() << " ";
+			q.pop();
+		}
+		std::cout << std::endl << std::endl;
+	}
+	/* bit_set */
+	{
+		std::cout << "TEST: bit_set" << std::endl;
+		std::bitset<12> bs;
+		bs.set(1);
+		bs.set(3);
+		bs.set(5);
+		std::cout << "bitset.to_string()=" << bs.to_string() << std::endl;
+		std::cout << std::endl;
 	}
 }

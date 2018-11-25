@@ -8,7 +8,7 @@
 #include <deque>
 #include <random>
 
-#include "../unility.h"
+#include "../utility.h"
 
 void TEST::test_algorithm_nonmodifying()
 {
@@ -132,7 +132,7 @@ void TEST::test_algorithm_nonmodifying()
 	{
 		std::cout << "TEST: adjacent_find" << std::endl;
 
-		std::vector<int> v{ 1,3,5,7,7,9, 10 };
+		std::vector<int> v{ 1,3,5,7,7,9,10 };
 		PRINT_ELEMENTES(v, "v:");
 		std::cout << "*adjacent_find(v.cbegin(), v.cend())=" <<
 			*std::adjacent_find(v.cbegin(), v.cend()) << std::endl;
@@ -753,6 +753,348 @@ void TEST::test_algorithm_sorting()
 		std::nth_element(v3.begin(), v3.begin() + 4, v3.end(),
 			[](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; });
 		PRINT_ELEMENTES(v3, "v3:");
+		std::cout << std::endl;
+	}
+	/* heap */
+	{
+		std::cout << "TEST: heap" << std::endl;
+		std::vector<int> v{ 4,8,1,2,5,6,3,9,7 };
+		
+		std::vector<int> v2 = v;
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "make_heap(v2.begin(), v2.end())" << std::endl;
+		std::make_heap(v2.begin(), v2.end());
+		PRINT_ELEMENTES(v2, "v2:");
+
+		std::vector<int> v3 = v;
+		PRINT_ELEMENTES(v3, "v3:");
+		std::cout << "make_heap(v3.begin(), v3.end(), op(a>b))" << std::endl;
+		std::make_heap(v3.begin(), v3.end(), [](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; });
+
+		std::cout << "v2.push_back(13)" << std::endl;
+		v2.push_back(13);
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "push_heap(v2.begin(), v2.end())" << std::endl;
+		std::push_heap(v2.begin(), v2.end());
+		PRINT_ELEMENTES(v2, "v2:");
+
+		std::cout << "pop_heap(v2.begin(), v2.end())" << std::endl;
+		std::pop_heap(v2.begin(), v2.end());
+		PRINT_ELEMENTES(v2, "v2:");
+
+		std::cout << "sort_heap(v3.begin(), v3.end())" << std::endl;
+		std::sort_heap(v3.begin(), v3.end(),
+			[](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; });
+		PRINT_ELEMENTES(v3, "v3:");
+
+		std::cout << std::endl;
+	}
+}
+
+void TEST::test_algorithm_sortedrange()
+{
+	std::cout << "TEST sorted range" << std::endl;
+	/* binnary_search */
+	{
+		std::cout << "TEST: binary_search" << std::endl;
+
+		std::vector<int> v{ 4,8,1,2,5,6,3,9,7 };
+
+		std::vector<int> v2 = v;
+		std::sort(v2.begin(), v2.end());
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "binary_search(v.cbegin(), v.cend(), 5)=" << std::binary_search(v.cbegin(), v.cend(), 5) << std::endl;
+		std::cout << "binary_search(v.cbegin(), v.cend(), 100)=" << std::binary_search(v.cbegin(), v.cend(), 100) << std::endl;
+
+		std::sort(v2.begin(), v2.end(), [](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; });
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "binary_search(v2.cbegin(), v2.cend(), 5, op(a>b))=" <<
+			std::binary_search(v2.cbegin(), v2.cend(), 5, [](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; }) << std::endl;
+		std::cout << "binary_search(v2.cbegin(), v2.cend(), 100, op(a>b))=" <<
+			std::binary_search(v2.cbegin(), v2.cend(), 100, [](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; }) << std::endl;
+		std::cout << std::endl;
+	}
+	/* includes */
+	{
+		std::cout << "TEST: includes" << std::endl;
+		std::vector<int> v{ 4,8,1,2,5,6,3,9,7 };
+
+		std::vector<int> v2 = v;
+		sort(v2.begin(), v2.end());
+		PRINT_ELEMENTES(v2, "v2:");
+		std::vector<int> v3{ 3,5,8 };
+		PRINT_ELEMENTES(v3, "v3:");
+		std::vector<int> v4{ 8,5,3 };
+		PRINT_ELEMENTES(v4, "v4:");
+		std::vector<int> v5{ 1,3,11 };
+		PRINT_ELEMENTES(v5, "v5:");
+		std::vector<int> v6{ 12,3,1 };
+		PRINT_ELEMENTES(v6, "v6:");
+
+		std::cout << "includes(v2.cbegin(), v2.cend(), v3.cbegin(), v3.cend())=" <<
+			std::includes(v2.cbegin(), v2.cend(), v3.cbegin(), v3.cend()) << std::endl;
+
+		std::cout << "includes(v2.cbegin(), v2.cend(), v5.cbegin(), v5.cend())=" <<
+			std::includes(v2.cbegin(), v2.cend(), v5.cbegin(), v5.cend()) << std::endl;
+		
+		auto reverse_com = [](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; };
+		sort(v2.begin(), v2.end(), reverse_com);
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "includes(v2.cbegin(), v2.cend(), v4.cbegin(), v4.cend(), op(a>b))=" <<
+			std::includes(v2.cbegin(), v2.cend(), v4.cbegin(), v4.cend(), reverse_com) << std::endl;
+
+		std::cout << "includes(v2.cbegin(), v2.cend(), v6.cbegin(), v6.cend(), op(a>b))=" <<
+			std::includes(v2.cbegin(), v2.cend(), v6.cbegin(), v6.cend(), reverse_com) << std::endl;
+
+		std::cout << std::endl;
+	}
+	/* lower_bound, upper_bound */
+	{
+		std::vector<int> v{ 1,2,3,4,5,6,7,8,9 };
+		PRINT_ELEMENTES(v, "v:");
+
+		std::cout << "*lower_bound(v.cbegin(), v.cend(), 5)=" <<
+			*std::lower_bound(v.cbegin(), v.cend(), 5) << std::endl;
+		std::cout << "*upper_bound(v.cbegin(), v.cend(), 5)=" <<
+			*std::upper_bound(v.cbegin(), v.cend(), 5) << std::endl;
+
+		auto reverse_com = [](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; };
+		sort(v.begin(), v.end(), reverse_com);
+
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "*lower_bound(v.cbegin(), v.cend(), 5, reverse_com)=" <<
+			*std::lower_bound(v.cbegin(), v.cend(), 5, reverse_com) << std::endl;
+		std::cout << "*upper_bound(v.cbegin(), v.cend(), 5, reverse_com)=" <<
+			*std::upper_bound(v.cbegin(), v.cend(), 5, reverse_com) << std::endl;
+
+		std::cout << std::endl;
+	}
+	/* equal_range */
+	{
+		std::cout << "TEST: equal_range" << std::endl;
+		std::vector<int> v{ 1,3,3,4,5,5,5,6,7,8 };
+		PRINT_ELEMENTES(v, "v:");
+		auto range = std::equal_range(v.cbegin(), v.cend(), 5);
+		std::cout << "*equal_range(v.cbegin(), v.cend(), 5).first=" << *range.first << std::endl;
+		std::cout << "*equal_range(v.cbegin(), v.cend(), 5).second=" << *range.second << std::endl;
+
+		auto reverse_comp = [](const int &ref_a, const int ref_b)->bool {return ref_a > ref_b; };
+		std::sort(v.begin(), v.end(), reverse_comp);
+		PRINT_ELEMENTES(v, "v:");
+		auto reverse_range = std::equal_range(v.cbegin(), v.cend(), 5, reverse_comp);
+		std::cout << "*equal_range(v.cbegin(), v.cend(), 5, op(a>b)).first=" << *reverse_range.first << std::endl;
+		std::cout << "*equal_range(v.cbegin(), v.cend(), 5, op(a>b)).second=" << *reverse_range.second << std::endl;
+
+		std::cout << std::endl;
+	}
+	/* merge */
+	{
+		std::cout << "TEST: merge" << std::endl;
+		std::vector<int> v{ 1,2,5,7,9 };
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2{ 1,4,5,7,9 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::vector<int> v3;
+
+		std::cout << "merge(v.cbegin(), v.cend(), v2.cbegin(), v2.cend(), back_inserter(v3))" << std::endl;
+		std::merge(v.cbegin(), v.cend(), v2.cbegin(), v2.cend(), std::back_inserter(v3));
+		PRINT_ELEMENTES(v3, "v3:");
+
+		std::vector<int> v4{ 8,7,5,3,1 };
+		PRINT_ELEMENTES(v4, "v4:");
+		std::vector<int> v5{ 6,4,3,2,1 };
+		PRINT_ELEMENTES(v5, "v5:");
+		std::vector<int> v6;
+
+		auto reverse_comp = [](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; };
+
+		std::cout << "merge(v4.cbegin(), v4.cend(), v5.cbegin(), v5.cend(), back_inserter(v6), op(a>b))" << std::endl;
+		std::merge(v4.cbegin(), v4.cend(), v5.cbegin(), v5.cend(), std::back_inserter(v6), reverse_comp);
+		PRINT_ELEMENTES(v6, "v6:");
+
+		std::cout << std::endl;
+	}
+	/* set_union */
+	{
+		std::cout << "TEST: set_union" << std::endl;
+		std::vector<int> v{ 1,2,5,7,9 };
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2{ 1,4,5,7,9 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::vector<int> v3;
+
+		std::cout << "set_union(v.cbegin(), v.cend(), v2.cbegin(), v2.cend(), back_inserter(v3))" << std::endl;
+		std::set_union(v.cbegin(), v.cend(), v2.cbegin(), v2.cend(), std::back_inserter(v3));
+		PRINT_ELEMENTES(v3, "v3:");
+
+		std::vector<int> v4{ 8,7,5,3,1 };
+		PRINT_ELEMENTES(v4, "v4:");
+		std::vector<int> v5{ 6,4,3,2,1 };
+		PRINT_ELEMENTES(v5, "v5:");
+		std::vector<int> v6;
+
+		auto reverse_comp = [](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; };
+
+		std::cout << "set_union(v4.cbegin(), v4.cend(), v5.cbegin(), v5.cend(), back_inserter(v6), op(a>b))" << std::endl;
+		std::set_union(v4.cbegin(), v4.cend(), v5.cbegin(), v5.cend(), std::back_inserter(v6), reverse_comp);
+		PRINT_ELEMENTES(v6, "v6:");
+
+		std::cout << std::endl;
+	}
+	/* set_intersection */
+	{
+		std::cout << "TEST: set_intersection" << std::endl;
+		std::vector<int> v{ 1,2,5,7,9 };
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2{ 1,4,5,7,9 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::vector<int> v3;
+
+		std::cout << "set_intersection(v.cbegin(), v.cend(), v2.cbegin(), v2.cend(), back_inserter(v3))" << std::endl;
+		std::set_intersection(v.cbegin(), v.cend(), v2.cbegin(), v2.cend(), std::back_inserter(v3));
+		PRINT_ELEMENTES(v3, "v3:");
+
+		std::vector<int> v4{ 8,7,5,3,1 };
+		PRINT_ELEMENTES(v4, "v4:");
+		std::vector<int> v5{ 6,4,3,2,1 };
+		PRINT_ELEMENTES(v5, "v5:");
+		std::vector<int> v6;
+
+		auto reverse_comp = [](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; };
+
+		std::cout << "set_intersection(v4.cbegin(), v4.cend(), v5.cbegin(), v5.cend(), back_inserter(v6), op(a>b))" << std::endl;
+		std::set_intersection(v4.cbegin(), v4.cend(), v5.cbegin(), v5.cend(), std::back_inserter(v6), reverse_comp);
+		PRINT_ELEMENTES(v6, "v6:");
+
+		std::cout << std::endl;
+	}
+	/* set_difference */
+	{
+		std::cout << "TEST: set_difference" << std::endl;
+		std::vector<int> v{ 1,2,5,7,9 };
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2{ 1,4,5,7,9 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::vector<int> v3;
+
+		std::cout << "set_difference(v.cbegin(), v.cend(), v2.cbegin(), v2.cend(), back_inserter(v3))" << std::endl;
+		std::set_difference(v.cbegin(), v.cend(), v2.cbegin(), v2.cend(), std::back_inserter(v3));
+		PRINT_ELEMENTES(v3, "v3:");
+
+		std::vector<int> v4{ 8,7,5,3,1 };
+		PRINT_ELEMENTES(v4, "v4:");
+		std::vector<int> v5{ 6,4,3,2,1 };
+		PRINT_ELEMENTES(v5, "v5:");
+		std::vector<int> v6;
+
+		auto reverse_comp = [](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; };
+
+		std::cout << "set_difference(v4.cbegin(), v4.cend(), v5.cbegin(), v5.cend(), back_inserter(v6), op(a>b))" << std::endl;
+		std::set_difference(v4.cbegin(), v4.cend(), v5.cbegin(), v5.cend(), std::back_inserter(v6), reverse_comp);
+		PRINT_ELEMENTES(v6, "v6:");
+
+		std::cout << std::endl;
+	}
+	/* set_symmetric_difference */
+	{
+		std::cout << "TEST: set_symmetric_difference" << std::endl;
+		std::vector<int> v{ 1,2,5,7,9 };
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2{ 1,4,5,7,9 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::vector<int> v3;
+
+		std::cout << "set_symmetric_difference(v.cbegin(), v.cend(), v2.cbegin(), v2.cend(), back_inserter(v3))" << std::endl;
+		std::set_symmetric_difference(v.cbegin(), v.cend(), v2.cbegin(), v2.cend(), std::back_inserter(v3));
+		PRINT_ELEMENTES(v3, "v3:");
+
+		std::vector<int> v4{ 8,7,5,3,1 };
+		PRINT_ELEMENTES(v4, "v4:");
+		std::vector<int> v5{ 6,4,3,2,1 };
+		PRINT_ELEMENTES(v5, "v5:");
+		std::vector<int> v6;
+
+		auto reverse_comp = [](const int &ref_a, const int &ref_b)->bool {return ref_a > ref_b; };
+
+		std::cout << "set_symmetric_difference(v4.cbegin(), v4.cend(), v5.cbegin(), v5.cend(), back_inserter(v6), op(a>b))" << std::endl;
+		std::set_symmetric_difference(v4.cbegin(), v4.cend(), v5.cbegin(), v5.cend(), std::back_inserter(v6), reverse_comp);
+		PRINT_ELEMENTES(v6, "v6:");
+
+		std::cout << std::endl;
+	}
+	/* inplace_merge */
+	{
+		std::cout << "TEST: inplace_merge" << std::endl;
+		std::vector<int> v{ 1,2,4,5,7,2,4,5,6,8 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "inplace_merge(v.begin(), v.begin() + 5, v.end())" << std::endl;
+		std::inplace_merge(v.begin(), v.begin() + 5, v.end());
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << std::endl;
+	}
+}
+
+void TEST::test_algorithm_numeric()
+{
+	std::cout << "TEST: numeric" << std::endl;
+	/* accumulate */
+	{
+		std::vector<int> v{ 1,2,3,4,5 };
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "accumulate(v.cbegin(), v.cend(), 0)=" <<
+			std::accumulate(v.cbegin(), v.cend(), 0) << std::endl;
+		std::cout << "accumulate(v.cbegin(), v.cend(), 0, op(return a+b))=" <<
+			std::accumulate(v.cbegin(), v.cend(), 0, 
+				[](const int &ref_a, const int &ref_b)->int {return ref_a + ref_b; }) << std::endl;
+		std::cout << std::endl;
+	}
+	/* inner_product */
+	{
+		std::cout << "TEST: inner_product" << std::endl;
+		std::vector<int> v{ 1,3};
+		PRINT_ELEMENTES(v, "v:");
+		std::vector<int> v2{ 2,2 };
+		PRINT_ELEMENTES(v2, "v2:");
+		std::cout << "inner_product(v.cbegin(), v.cend(), v2.cbegin(), 10)=" <<
+			std::inner_product(v.cbegin(), v.cend(), v2.cbegin(), 10) << std::endl;
+		std::cout << "inner_product(v.cbegin(), v.cend(), v2.cbegin(), 10, op1(return a+b), op2(return a*b))=" <<
+			std::inner_product(v.cbegin(), v.cend(), v2.cbegin(), 10,
+				[](const int &ref_a, const int &ref_b)->int {return ref_a + ref_b; },
+				[](const int &ref_a, const int &ref_b)->int {return ref_a * ref_b; });
+		std::cout << std::endl;
+	}
+	/* partial_sum */
+	{
+		std::cout << "TEST: partial_sum" << std::endl;
+		std::vector<int> v{ 1,2,3,4,5,6,7,8,9 };
+		std::vector<int> v2;
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "partial_sum(v.cbegin(), v.cend(), back_inserter(v2))" << std::endl;
+		std::partial_sum(v.cbegin(), v.cend(), std::back_inserter(v2));
+		PRINT_ELEMENTES(v2, "v2:");
+
+		std::vector<int> v3;
+		std::cout << "partial_sum(v.cbegin(), v.cend(), back_inserter(v2), op(a+b))" << std::endl;
+		std::partial_sum(v.cbegin(), v.cend(), std::back_inserter(v3),
+			[](const int &ref_a, const int &ref_b)->int {return ref_a + ref_b; });
+		PRINT_ELEMENTES(v3, "v3:");
+		std::cout << std::endl;
+	}
+	/* adjacent_difference */
+	{
+		std::cout << "TEST: adjacent_difference" << std::endl;
+		std::vector<int> v{ 1,2,4,7,11,16 };
+		std::vector<int> v2;
+		PRINT_ELEMENTES(v, "v:");
+		std::cout << "adjacent_differenct(v.cbegin(), v.cend(), back_inserter(v2))" << std::endl;
+		std::adjacent_difference(v.cbegin(), v.cend(), std::back_inserter(v2));
+		PRINT_ELEMENTES(v2, "v2:");
+
+		std::vector<int> v3;
+		std::cout << "adjacent_difference(v.cbegin(), v.cend(), back_inserter(v2), op(a-b))" << std::endl;
+		std::adjacent_difference(v.cbegin(), v.cend(), std::back_inserter(v2),
+			[](const int &ref_a, const int &ref_b)->int {return ref_a - ref_b; });
+		PRINT_ELEMENTES(v3);
 		std::cout << std::endl;
 	}
 }
