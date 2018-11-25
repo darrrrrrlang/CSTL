@@ -205,6 +205,45 @@ void TEST::test_string_basic()
 		cout << "s0.find_first_of(\"is\")=" << s0.find_first_of("is") << endl;
 		cout << "s0.find_first_of(\"si\")=" << s0.find_first_of("si") << endl;
 
+		cout << "s0.find_last_of(\"ing\")=" << s0.find_last_of("ing") << endl;
+		cout << "s0.find_last_of(\"gni\")=" << s0.find_last_of("gni") << endl;
+
+		cout << "s0.find_first_not_of(\"This \")=" << s0.find_first_not_of("This ") << endl;
+		cout << "s0.find_last_not_of(\"is amaing!\")=" << s0.find_last_not_of("is amazing!") << endl;
+
+		cout << endl;
+	}
+	/* numeric conversion */
+	{
+		cout << "TEST: numeric conversion" << endl;
+
+		std::size_t idx = 0;
+
+		cout << R"(std::stoi(string("10ghi"), & idx, 16)=)" << std::stoi(string("10ghi"), &idx, 16)
+			<< " idx=" << idx << endl;
+
+		cout << R"(std::stoi(string("10ghi"), & idx, 10)=)" << std::stoi(string("10ghi"), &idx, 10) 
+			<< " idx=" << idx << endl;
+
+		cout << R"(std::stoi(string("10ghi"), & idx, 8)=)" << std::stoi(string("10ghi"), &idx, 8)
+			<< " idx=" << idx << endl;
+
+		cout << R"(std::stoi(string("10ghi"), & idx, 2)=)" << std::stoi(string("10ghi"), &idx, 2)
+			<< " idx=" << idx << endl;
+
+		cout << R"(std::stof(string("10.001ghi"), & idx)=)" << std::stof(string("10.001ghi"), &idx)
+			<< " idx=" << idx << endl;
+
+		cout << R"(std::stod(string("1.333e2ghi"), & idx)=)" << std::stod(string("1.333e2ghi"), &idx)
+			<< " idx=" << idx << endl;
+
+		const int i0 = 12;
+		const double d0 = 13.34;
+		const double d1 = i0 + d0;
+
+		cout << "to_string: " << endl;
+		cout << std::to_string(i0) << " + " << std::to_string(d0) << " = " << std::to_string(d1) << endl;
+
 		cout << endl;
 	}
 }
