@@ -5,6 +5,7 @@
 #include "functional_algorithm_parameter.h"
 #include "function_object.h"
 #include "string.h"
+#include "regular_expression.h"
 
 #include <iostream>
 #include <vector>
@@ -36,6 +37,7 @@ int main()
 	//TEST::test_algorithm_sortedrange();
 	//TEST::test_algorithm_numeric();
 	//TEST::test_adapter();
-	TEST::test_string_basic();
+	//TEST::test_string_basic();
+	TEST::test_regular_expression();
 	return 0;
 }
