@@ -116,6 +116,9 @@ void TEST::test_regular_expression()
 			"</person>\n");
 		std::string reg_str(R"(<(.*)>(.*)</(\1)>)");
 
+		cout << "str=" << str << endl;
+		cout << "reg=" << reg_str << endl;
+
 		std::regex reg(reg_str);
 		std::sregex_iterator pos(str.cbegin(), str.cend(), reg);
 		std::sregex_iterator end;
@@ -127,5 +130,117 @@ void TEST::test_regular_expression()
 			cout << endl;
 		}
 		cout << endl;
+	}
+	/* regex token iterator */
+	{
+		cout << "TEST: regex token iterator" << endl;
+		std::string str(
+			"<person>\n"
+			" <first>Nico</first>\n"
+			" <last>Josuttis</last>\n"
+			"</person>\n");
+		std::string reg_str(R"(<(.*)>(.*)</(\1)>)");
+
+		cout << "str=" << str << endl;
+		cout << "reg_str=" << reg_str << endl;
+
+		{
+			cout << "sregex_token_iterator pos(str.cbegin(), str.cend(), reg, {-1,-1,0,0,1,1,2,2,3,3} )" << endl;
+			std::regex reg(reg_str);
+			std::sregex_token_iterator pos(str.cbegin(), str.cend(), reg, { -1,-1,0,0,1,1,2,2,3,3 });
+			std::sregex_token_iterator end;
+			for (; pos != end; ++pos)
+			{
+				cout << "match: " << pos->str() << endl;
+			}
+		}
+		{
+			cout << "sregex_token_iterator pos(str.cbegin(), str.cend(), reg, {-1} )" << endl;
+			std::regex reg(reg_str);
+			std::sregex_token_iterator pos(str.cbegin(), str.cend(), reg, { -1 });
+			std::sregex_token_iterator end;
+			for (; pos != end; ++pos)
+			{
+				cout << "match: " << pos->str() << endl;
+			}
+		}
+		{
+			cout << "sregex_token_iterator pos(str.cbegin(), str.cend(), reg, {0} )" << endl;
+			std::regex reg(reg_str);
+			std::sregex_token_iterator pos(str.cbegin(), str.cend(), reg, { 0 });
+			std::sregex_token_iterator end;
+			for (; pos != end; ++pos)
+			{
+				cout << "match=" << pos->str() << endl;
+			}
+		}
+		cout << endl;
+
+		str = "zhangwuji, zhangsanfeng, xiexun, zhouzhiruo, zhaomin";
+		reg_str = "[ ]*[,][ ]*";
+		cout << "str=" << str << endl;
+		cout << "reg_str=" << reg_str << endl;
+		{
+			cout << "sregex_token_iterator pos(str.cbegin(), str.cend(), reg, {-1})" << endl;
+			std::regex reg(reg_str);
+			std::sregex_token_iterator pos(str.cbegin(), str.cend(), reg, { -1 });
+			std::sregex_token_iterator end;
+			for (; pos != end; ++pos)
+			{
+				cout << "match=" << pos->str() << endl;
+			}
+			cout << endl;
+		}
+
+		cout << endl;
+	}
+	/* regex_replace */
+	{
+		cout << "TEST: regex_replace" << endl;
+		std::string str(
+			"<person>\n"
+			" <first>Nico</first>\n"
+			" <last>Josuttis</last>\n"
+			"</person>\n");
+		const std::string reg_str(R"(<(.*)>(.*)</(\1)>)");
+
+		cout << "str=" << str << endl;
+		cout << "reg_str=" << reg_str << endl;
+
+		cout << R"(regex_replace(str, regex, "<$1 value="$2">"))" << endl;
+		std::string str_replace = std::regex_replace(str, std::regex(reg_str), R"(<$1 value="$2"/>)");
+		cout << "str_replace=" << str_replace << endl;
+
+		cout << R"(regex_replace(str, regex, "<\1 value="\2">", format_sed)" << endl;
+		str_replace = std::regex_replace(str, std::regex(reg_str), R"(<\1 value="\2"/>)", std::regex_constants::format_sed);
+		cout << "str_replace=" << str_replace << endl;
+
+		cout << "regex_replace using iterator" << endl;
+		str_replace.clear();
+		std::regex_replace(std::back_inserter(str_replace),
+			str.cbegin(), str.cend(), std::regex(reg_str),
+			R"(<$1 value="$2"/>)",
+			std::regex_constants::format_no_copy | std::regex_constants::format_first_only);
+		cout << "str_replace=" << str_replace << endl;
+
+		cout << endl;
+	}
+	/* regex flag */
+	{
+		std::regex_constants::syntax_option_type f;
+		f = std::regex_constants::ECMAScript; // default
+		f = std::regex_constants::basic; // POSIX basic regular expression(BRE)
+		f = std::regex_constants::extended; // POSIX extened regular expression(ERE)
+		f = std::regex_constants::awk; // UNIX awk
+		f = std::regex_constants::grep; // UNIX grep
+		f = std::regex_constants::egrep; // UNIX egrep
+		f = std::regex_constants::icase; // ignore case
+		f = std::regex_constants::nosubs;
+		std::regex_constants::match_flag_type f1;
+		f1 = std::regex_constants::match_not_null;
+		f1 = std::regex_constants::match_not_bol;
+	}
+	/* regex exception */
+	{
 	}
 }

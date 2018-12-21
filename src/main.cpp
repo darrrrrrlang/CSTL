@@ -6,6 +6,8 @@
 #include "function_object.h"
 #include "string.h"
 #include "regular_expression.h"
+#include "stream.h"
+#include "numeric.h"
 
 #include <iostream>
 #include <vector>
@@ -38,6 +40,9 @@ int main()
 	//TEST::test_algorithm_numeric();
 	//TEST::test_adapter();
 	//TEST::test_string_basic();
-	TEST::test_regular_expression();
+	//TEST::test_regular_expression();
+	//TEST::test_stream();
+	//TEST::test_random_number();
+	TEST::test_ditributeion();
 	return 0;
 }

@@ -2,5 +2,5 @@
 
 namespace TEST
 {
-	void test_string_basic();
+	void test_async_future();
 }
