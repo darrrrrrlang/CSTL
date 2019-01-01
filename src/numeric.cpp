@@ -59,6 +59,7 @@ void TEST::test_random_number()
 		{
 			cout << dr(dre) << " ";
 		}
+
 		cout << endl;
 		cout << endl;
 	}

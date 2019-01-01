@@ -8,6 +8,8 @@
 #include "regular_expression.h"
 #include "stream.h"
 #include "numeric.h"
+#include "internationalization.h"
+#include "concurrency.h"
 
 #include <iostream>
 #include <vector>
@@ -47,8 +49,9 @@ int main()
 	//TEST::test_fstream();
 	//TEST::test_stringstream();
 	//TEST::test_coupling();
-
+	//TEST::test_locale();
 	//TEST::test_random_number();
 	//TEST::test_ditributeion();
+	TEST::test_async_future();
 	return 0;
 }
