@@ -11,7 +11,8 @@
 using std::cout;
 using std::endl;
 
-namespace {
+namespace 
+{
 	template <typename Distribution, typename Engine>
 	void distr(Distribution dis, Engine eng, const std::string &name)
 	{

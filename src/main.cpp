@@ -42,7 +42,10 @@ int main()
 	//TEST::test_string_basic();
 	//TEST::test_regular_expression();
 	//TEST::test_stream();
-	TEST::test_random_number();
+	//TEST::test_stream_manipulator();
+	//TEST::test_formatting();
+	TEST::test_fstream();
+	//TEST::test_random_number();
 	//TEST::test_ditributeion();
 	return 0;
 }
