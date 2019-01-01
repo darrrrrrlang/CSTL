@@ -23,6 +23,7 @@
     <ClCompile Include="src\container.cpp" />
     <ClCompile Include="src\functional_algorithm_parameter.cpp" />
     <ClCompile Include="src\function_object.cpp" />
+    <ClCompile Include="src\internationalization.cpp" />
     <ClCompile Include="src\iterator.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\numeric.cpp" />
@@ -34,6 +35,7 @@
     <ClInclude Include="src\container.h" />
     <ClInclude Include="src\functional_algorithm_parameter.h" />
     <ClInclude Include="src\function_object.h" />
+    <ClInclude Include="src\internationalization.h" />
     <ClInclude Include="src\iterator.h" />
     <ClInclude Include="src\numeric.h" />
     <ClInclude Include="src\stream.h" />

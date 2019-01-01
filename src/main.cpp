@@ -44,7 +44,10 @@ int main()
 	//TEST::test_stream();
 	//TEST::test_stream_manipulator();
 	//TEST::test_formatting();
-	TEST::test_fstream();
+	//TEST::test_fstream();
+	//TEST::test_stringstream();
+	//TEST::test_coupling();
+
 	//TEST::test_random_number();
 	//TEST::test_ditributeion();
 	return 0;

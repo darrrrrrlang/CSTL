@@ -5,6 +5,7 @@
 #include <complex>
 #include <iomanip>
 #include <fstream>
+#include <sstream>
 
 using std::cout;
 using std::endl;
@@ -218,6 +219,7 @@ void TEST::test_fstream()
 	const std::string filename = "test.data";
 	// output file
 	{
+		cout << "TEST output file" << endl;
 		std::ofstream file(filename);
 		if (file.fail())
 		{
@@ -226,15 +228,17 @@ void TEST::test_fstream()
 		}
 		else
 		{
-			for (int i = 32; i < 256; ++i)
+			for (int i = 'A'; i < 'D'; ++i)
 			{
 				file << "value=" << std::setw(3) << i << " " << "char=" 
 					<< static_cast<char>(i) << endl;
 			}
 		}
+		cout << endl;
 	}
 	// input file
 	{
+		cout << "TEST input file" << endl;
 		std::ifstream file(filename);
 		if (file.fail())
 		{
@@ -246,5 +250,111 @@ void TEST::test_fstream()
 			while (file.get(c))
 				cout.put(c);
 		}
+		cout << endl;
 	}
+	// open mode
+	{
+		cout << "TEST open mode" << endl;
+		const std::string filename("test.data");
+		std::fstream file(filename, std::ios::in | std::ios::out | std::ios::app | std::ios::binary);
+		char c;
+		while (file.get(c))
+			cout.put(c);
+		file.close();
+
+		std::fstream file2(filename, std::ios::out | std::ios::trunc);
+		while (file2.get(c))
+			cout.put(c);
+		cout << endl;
+	}
+	// explicit open 
+	{
+		cout << "TEST explicit open" << endl;
+		const std::string filename("test.data");
+		std::fstream file;
+		file.open(filename, std::ios::out | std::ios::trunc);
+		
+		cout << "file.is_open()=" << file.is_open() << endl;
+		file.close();
+		cout << "file.is_open()=" << file.is_open() << endl;
+		cout << endl;
+	}
+	// random access
+	{
+		cout << "TEST random access" << endl;
+
+		const std::string filename("test.data");
+		std::fstream file;
+		file.open(filename, std::ios::out | std::ios::trunc);
+		if (!file.is_open())
+		{
+			std::cerr << "open file failed" << endl;
+		}
+		else
+		{
+			for (char c = '1'; c < '9'; ++c)
+			{
+				file.put(c);
+			}
+		}
+		file.close();
+
+		file.open(filename, std::ios::in);
+		cout << "file.tellg()=" << file.tellg() << endl;
+		file.seekg(5);
+		cout << "file.tellg()=" << file.tellg() << endl;
+		file.seekg(-5, std::ios::end);
+		cout << "file.tellg()=" << file.tellg() << endl;
+		file.seekg(2, std::ios::beg);
+		file.seekg(2, std::ios::cur);
+		cout << "file.tellg()=" << file.tellg() << endl;
+		file.close();
+
+		file.open(filename, std::ios::out);
+		cout << "file.tellp()=" << file.tellp() << endl;
+		file.seekp(2, std::ios::beg);
+
+		cout << endl;
+	}
+}
+
+void TEST::test_stringstream()
+{
+	cout << "TEST test_stream" << endl;
+
+	{
+		cout << "TEST ostringstream" << endl;
+		std::ostringstream oss;
+		oss << "623";
+		oss.seekp(0);
+		oss << "1";
+		cout << oss.str() << endl;
+		cout << endl;
+	}
+	{
+		cout << "TEST istringstream" << endl;
+		std::istringstream iss("3.7");
+		int i;
+		double f;
+		iss >> i >> f;
+		cout << i << endl;
+		cout << f << endl;
+		cout << endl;
+	}
+
+	cout << endl;
+}
+
+void TEST::test_coupling()
+{
+	// TEST loose coupling
+	/** a.tie(b):
+	*   Buffer of b will be emptied before an input or output operation.
+	*/
+
+	// TEST tight coupling
+	/** a and b share same buffer.
+		// T a(b.rdbuf());
+	*/
+		
 }
