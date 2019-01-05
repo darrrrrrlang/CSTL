@@ -52,6 +52,9 @@ int main()
 	//TEST::test_locale();
 	//TEST::test_random_number();
 	//TEST::test_ditributeion();
-	TEST::test_async_future();
+	//TEST::test_async_future();
+	//TEST::test_thread();
+	//TEST::test_promise();
+	TEST::test_mutex_lock();
 	return 0;
 }
