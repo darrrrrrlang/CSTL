@@ -10,6 +10,8 @@
 #include "numeric.h"
 #include "internationalization.h"
 #include "concurrency.h"
+#include "chrono.h"
+#include "ratio.h"
 
 #include <iostream>
 #include <vector>
@@ -17,6 +19,8 @@
 
 int main()
 {
+	//TEST::test_chrono_duration();
+	TEST::test_ratio();
 	//TEST::test_min_max_find_sort_reverse();
 	//TEST::test_compare_copy();
 	//TEST::test_insert_iterator();
@@ -55,6 +59,6 @@ int main()
 	//TEST::test_async_future();
 	//TEST::test_thread();
 	//TEST::test_promise();
-	TEST::test_mutex_lock();
+	//TEST::test_mutex_lock();
 	return 0;
 }
