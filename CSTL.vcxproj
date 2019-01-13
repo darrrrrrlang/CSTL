@@ -29,9 +29,11 @@
     <ClCompile Include="src\iterator.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\numeric.cpp" />
+    <ClCompile Include="src\numericlimit.cpp" />
     <ClCompile Include="src\ratio.cpp" />
     <ClCompile Include="src\stream.cpp" />
     <ClCompile Include="src\string.cpp" />
+    <ClCompile Include="src\typetrait.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\algorithm.h" />
@@ -43,9 +45,11 @@
     <ClInclude Include="src\internationalization.h" />
     <ClInclude Include="src\iterator.h" />
     <ClInclude Include="src\numeric.h" />
+    <ClInclude Include="src\numericlimit.h" />
     <ClInclude Include="src\ratio.h" />
     <ClInclude Include="src\stream.h" />
     <ClInclude Include="src\string.h" />
+    <ClInclude Include="src\typetrait.h" />
     <ClInclude Include="utility.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

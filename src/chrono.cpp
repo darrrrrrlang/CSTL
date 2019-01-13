@@ -7,6 +7,13 @@
 using std::cout;
 using std::endl;
 
+template <intmax_t N, intmax_t D = 1>
+std::ostream &operator<<(std::ostream &os, const std::ratio<N, D> &rratio)
+{
+	os << "[ratio]" << rratio.num << "/" << rratio.den;
+	return os;
+}
+
 void TEST::test_chrono_duration()
 {
 	cout << "TEST test_chrono_duration" << endl;
@@ -117,11 +124,17 @@ void TEST::test_chrono_duration()
 	cout << endl;
 }
 
+template <typename _ClockT>
+void PrintClock()
+{
+	//using _ClockT::duration::rep
+}
+
 void TEST::test_chrono_clock()
 {
 	cout << "TEST test_chrono_clock" << endl;
 
-	//std::chrono::system_clock::duration::period 
+	PrintClock<std::chrono::system_clock>();
 
 	cout << endl;
 }
