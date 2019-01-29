@@ -17,7 +17,10 @@
 
 int main()
 {
-	TEST::test_typetrait_common();
+	//TEST::test_typetrait_common();
+	//TEST::test_typetrait_class();
+	//TEST::test_typetrait_const();
+	TEST::test_typetrait_relation();
 	//TEST::test_chrono_duration();
 	//TEST::test_chrono_clock();
 	//TEST::test_ratio();
