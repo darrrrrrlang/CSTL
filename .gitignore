@@ -2,3 +2,7 @@
 /.git
 *.out
 *.o
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+/CMakeFiles
