@@ -1,9 +1,4 @@
-/x64/
-/Debug/
-/.vs/
-/.git/
+/obj
+/.git
 *.out
 *.o
-*.vcxproj
-*.vcxproj
-*.filters
