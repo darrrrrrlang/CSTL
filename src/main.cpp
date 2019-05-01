@@ -20,7 +20,7 @@ int main()
 	//TEST::test_typetrait_common();
 	//TEST::test_typetrait_class();
 	//TEST::test_typetrait_const();
-	TEST::test_typetrait_relation();
+    //TEST::test_typetrait_relation();
 	//TEST::test_chrono_duration();
 	//TEST::test_chrono_clock();
 	//TEST::test_ratio();
@@ -45,7 +45,7 @@ int main()
 	//TEST::test_algorithm_modifying();
 	//TEST::test_algorithm_removing();
 	//TEST::test_algorithm_mutating();
-	//TEST::test_algorithm_sorting();
+	TEST::test_algorithm_sorting();
 	//TEST::test_algorithm_sortedrange();
 	//TEST::test_algorithm_numeric();
 	//TEST::test_adapter();
@@ -57,7 +57,7 @@ int main()
 	//TEST::test_fstream();
 	//TEST::test_stringstream();
 	//TEST::test_coupling();
-	//TEST::test_locale();
+//	TEST::test_locale();
 	//TEST::test_random_number();
 	//TEST::test_ditributeion();
 	//TEST::test_async_future();
